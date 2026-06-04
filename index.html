@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kalkulator Premium Pro</title>
+
+    <link rel="icon" href="appleLogo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://s3.tradingview.com/tv.js"></script>
+
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            background: #0d1117;
+        }
+
+        .number-btn {
+            background: #1f2937;
+            color: white;
+            border-radius: 18px;
+            height: 80px;
+            font-size: 30px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .number-btn:hover {
+            background: #374151;
+        }
+
+        .operator-btn {
+            background: #2962ff;
+            color: white;
+            border-radius: 18px;
+            height: 80px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .operator-btn:hover {
+            background: #1d4ed8;
+        }
+    </style>
+
+</head>
+
+<body class="
+min-h-screen
+flex items-center justify-center
+p-6
+bg-gradient-to-b from-[#0a0a0a] to-[#050505]
+text-white
+selection:bg-[#D4AF37]/30
+selection:text-white
+">
+
+    <div class="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+
+    <!-- Kalkulator -->
+    <div id="calculatorPage">
+
+        <div class="bg-[#171717] border border-[#2a2a2a] rounded-[28px] sm:rounded-[32px] p-4 sm:p-6 lg:p-8 shadow-[0_20px_80px_rgba(0,0,0,0.6)]">
+
+            <h1 class="text-white text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight">
+                Kalkulator Premium
+            </h1>
+
+            <p class="text-[#9c9c9c] mt-2 text-sm sm:text-base">
+                Hasil terkunci sebelum pembayaran
+            </p>
+
+            <input id="display" readonly
+                class="w-full h-24 sm:h-32 lg:h-40 mt-6 sm:mt-8 bg-[#0f0f10] border border-[#2a2a2a] rounded-2xl sm:rounded-3xl text-right px-4 sm:px-6 lg:px-8 text-white text-3xl sm:text-5xl lg:text-6xl font-light tracking-wide shadow-inner">
+
+            <div class="grid grid-cols-4 gap-2 sm:gap-3 lg:gap-4 mt-6 sm:mt-8">
+
+                <button onclick="clearDisplay()" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-[#E5C78A] font-semibold text-lg transition active:scale-95">
+                    AC
+                </button>
+
+                <button onclick="backspace()" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">
+                    ⌫
+                </button>
+
+                <button onclick="appendOperator('%')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">
+                    %
+                </button>
+
+                <button onclick="appendOperator('/')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#C9A86A] hover:bg-[#d8b97a] text-black text-xl font-bold transition active:scale-95">
+                    ÷
+                </button>
+
+                <button onclick="appendValue('7')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">7</button>
+                <button onclick="appendValue('8')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">8</button>
+                <button onclick="appendValue('9')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">9</button>
+
+                <button onclick="appendOperator('*')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#C9A86A] hover:bg-[#d8b97a] text-black text-xl font-bold transition active:scale-95">×</button>
+
+                <button onclick="appendValue('4')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">4</button>
+                <button onclick="appendValue('5')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">5</button>
+                <button onclick="appendValue('6')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">6</button>
+
+                <button onclick="appendOperator('-')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#C9A86A] hover:bg-[#d8b97a] text-black text-xl font-bold transition active:scale-95">−</button>
+
+                <button onclick="appendValue('1')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">1</button>
+                <button onclick="appendValue('2')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">2</button>
+                <button onclick="appendValue('3')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">3</button>
+
+                <button onclick="appendOperator('+')" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#C9A86A] hover:bg-[#d8b97a] text-black text-xl font-bold transition active:scale-95">+</button>
+
+                <button onclick="appendValue('0')" class="col-span-2 h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">0</button>
+
+                <button onclick="appendDecimal()" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#202020] border border-[#2d2d2d] hover:bg-[#2b2b2b] text-white text-xl transition active:scale-95">.</button>
+
+                <button onclick="showPaymentModal()" class="h-14 sm:h-16 lg:h-20 rounded-2xl bg-[#E5C78A] hover:bg-[#f0d59b] text-black text-xl font-bold transition active:scale-95">
+                    =
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Dashboard Kurs -->
+    <div id="exchangePage" class="hidden">
+
+    <div class="
+        bg-[#0b0b0b]
+        border border-[#262626]
+        rounded-[28px] sm:rounded-[32px]
+        p-4 sm:p-6 lg:p-8
+        shadow-[0_25px_90px_rgba(0,0,0,0.7)]
+    ">
+
+        <!-- HEADER -->
+        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
+
+            <div>
+                <h1 class="
+                    text-white
+                    text-3xl sm:text-4xl lg:text-5xl
+                    font-semibold
+                    tracking-tight
+                ">
+                    USD / IDR Live
+                </h1>
+
+                <p class="
+                    text-[#9c9c9c]
+                    mt-2
+                    text-sm sm:text-base
+                ">
+                    Data langsung dari TradingView
+                </p>
+            </div>
+
+            <button
+                onclick="backToCalculator()"
+                class="
+                    px-5 py-3
+                    rounded-xl
+                    bg-[#141414]
+                    border border-[#2d2d2d]
+                    text-[#E5C78A]
+                    hover:bg-[#1a1a1a]
+                    hover:border-[#D4AF37]
+                    transition
+                    active:scale-95
+                    font-medium
+                ">
+                ← Kembali
+            </button>
+
+        </div>
+
+        <!-- CHART CONTAINER -->
+        <div class="
+            bg-[#0f0f10]
+            border border-[#262626]
+            rounded-2xl
+            p-2 sm:p-4
+            shadow-inner
+        ">
+
+            <div
+                id="tradingview_chart"
+                class="w-full h-[350px] sm:h-[500px] lg:h-[800px]">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- Modal -->
+<div id="modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+
+    <div class="
+        w-full max-w-md
+        bg-[#0c0c0c]
+        border border-[#2a2a2a]
+        rounded-[28px] sm:rounded-[34px]
+        p-6 sm:p-8
+        shadow-[0_30px_120px_rgba(0,0,0,0.75)]
+    ">
+
+        <!-- subtle accent line -->
+        <div class="w-10 h-[2px] bg-[#E5C78A] mb-6 opacity-80"></div>
+
+        <!-- TITLE -->
+        <h2 class="
+            text-white
+            text-2xl sm:text-3xl
+            font-light
+            tracking-wide
+        ">
+            Akses Terkunci
+        </h2>
+
+        <!-- DESCRIPTION -->
+        <p class="
+            text-[#9a9a9a]
+            mt-4
+            text-sm sm:text-base
+            leading-relaxed
+        ">
+            Untuk melanjutkan dan menampilkan hasil perhitungan secara penuh,
+            diperlukan aktivasi akses premium.
+        </p>
+
+        <!-- PRICE -->
+        <div class="mt-7">
+
+            <div class="
+                text-[#6f6f6f]
+                text-xs
+                uppercase
+                tracking-[0.25em]
+            ">
+                Biaya Aktivasi
+            </div>
+
+            <div class="
+                mt-2
+                text-[#E5C78A]
+                text-4xl sm:text-5xl
+                font-extralight
+                tracking-tight
+            ">
+                Rp18.000
+            </div>
+
+        </div>
+
+        <!-- divider -->
+        <div class="h-px bg-[#222] my-7"></div>
+
+        <!-- BUTTONS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+            <button
+                onclick="closeModal()"
+                class="
+                    h-12 sm:h-14
+                    rounded-2xl
+                    bg-[#151515]
+                    border border-[#2a2a2a]
+                    text-[#cfcfcf]
+                    hover:bg-[#1c1c1c]
+                    transition
+                    active:scale-95
+                ">
+                Kembali
+            </button>
+
+            <button
+                onclick="fakePayment()"
+                class="
+                    h-12 sm:h-14
+                    rounded-2xl
+                    bg-[#E5C78A]
+                    hover:bg-[#f0d59b]
+                    text-black
+                    font-medium
+                    tracking-wide
+                    transition
+                    active:scale-95
+                ">
+                Bayar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <script>
+
+        const display =
+            document.getElementById('display');
+
+        function appendValue(v) {
+            display.value += v;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function backspace() {
+            display.value =
+                display.value.slice(0, -1);
+        }
+
+        function appendOperator(op) {
+
+            if (display.value === '') return;
+
+            const last =
+                display.value.slice(-1);
+
+            const ops =
+                ['+', '-', '*', '/', '%'];
+
+            if (ops.includes(last)) {
+
+                display.value =
+                    display.value.slice(0, -1) + op;
+
+                return;
+            }
+
+            display.value += op;
+        }
+
+        function appendDecimal() {
+
+            const lastNumber =
+                display.value
+                    .split(/[\+\-\*\/%]/)
+                    .pop();
+
+            if (!lastNumber.includes('.')) {
+                display.value += '.';
+            }
+
+        }
+
+        function showPaymentModal() {
+
+            if (display.value === '') return;
+
+            document
+                .getElementById('modal')
+                .classList.remove('hidden');
+        }
+
+        function closeModal() {
+
+            document
+                .getElementById('modal')
+                .classList.add('hidden');
+        }
+
+        async function getRate() {
+
+            const response =
+                await fetch(
+                    'https://open.er-api.com/v6/latest/USD'
+                );
+
+            const data =
+                await response.json();
+
+            document
+                .getElementById('rateDisplay')
+                .innerHTML =
+                `1 USD = Rp ${data.rates.IDR.toLocaleString('id-ID')}`;
+
+            document
+                .getElementById('updateTime')
+                .innerText =
+                new Date().toLocaleString('id-ID');
+        }
+
+        function fakePayment() {
+
+            closeModal();
+
+            document
+                .getElementById('calculatorPage')
+                .classList.add('hidden');
+
+            document
+                .getElementById('exchangePage')
+                .classList.remove('hidden');
+
+            getRate();
+
+            setTimeout(() => {
+
+                new TradingView.widget({
+
+                    container_id:
+                        "tradingview_chart",
+
+                    autosize: true,
+
+                    symbol:
+                        "FX_IDC:USDIDR",
+
+                    interval: "D",
+
+                    theme: "dark",
+
+                    style: "1",
+
+                    locale: "id",
+
+                    timezone:
+                        "Asia/Jakarta",
+
+                    allow_symbol_change: false
+
+                });
+
+            }, 500);
+
+        }
+
+        function backToCalculator() {
+
+            document
+                .getElementById('exchangePage')
+                .classList.add('hidden');
+
+            document
+                .getElementById('calculatorPage')
+                .classList.remove('hidden');
+
+        }
+
+    </script>
+
+</body>
+
+</html>
